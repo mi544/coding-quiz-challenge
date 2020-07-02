@@ -56,14 +56,27 @@ function endQuiz() {
     clearEverything();
     $(".buttons").remove();
 
-    // Displaying End Header
-    $("main").prepend($("<h4>").attr("class", "end").text("End of the Quiz!"));
-
-    $("main").append($("input").attr("class", "initials"));
-    // Displaying input field
-
+    // Removing Right/Wrong Answer elements
     $("hr").remove();
     $("#confirmation").remove();
+
+    // Displaying End Header
+    $("main").prepend($("<h4>").attr("class", "end").text("End of the Quiz!"));
+    // Final Score Information
+    $("main").append($("<h5>").attr("class", "score").text(`Your final score is: ${AnswersCounter} !`));
+
+    // Adding input field and label
+    $("main").append($("<label>").attr({
+        "for": "initials"
+    }).text("Enter your initials:"));
+    $("main").append($("<input>").attr({
+        "type": "text",
+        "id": "initials",
+        "name": "initials"
+    }).text("Enter your initials:"));
+
+    // Adding button to save
+    $("main").append($("<button>").attr("class", "submit-results").text("Submit!"));
 }
 
 function rightOrWrong(bool) {
