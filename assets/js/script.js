@@ -1,7 +1,7 @@
 // $("header").attr("style", "display: none;");
 var i = 0;
 var j = 0;
-var secondsLeft = 60;
+var secondsLeft = 5;
 var correctAnswersCounter = 0;
 var wrongAnswersCounter = 0;
 
@@ -13,7 +13,7 @@ var quizQuestions = [
 ]
 
 var quizAnswers = [
-    ["1", "2", "3", "4"],
+    ["1", "22", "3", "4"],
     ["3", "2", "1", "4"],
     ["1", "4", "5", "2"],
     ["2", "66", "2", "11"],
@@ -26,32 +26,35 @@ var correctAnswers = [
     "66",
 ]
 
-// Displays Question
-function displayQuestion() {
-    var questionToAdd = $("<h4>");
-    questionToAdd.attr("class", "question");
-    questionToAdd.text(quizQuestions[i]);
-    questionToAdd.text(quizQuestions[i]);
-    $("main").append(questionToAdd);
-}
-
-// Displays Answers
-function displayAnswers() {
-    for (j = 0; j < quizAnswers.length; j++) {
-        var buttonToAdd = $("<button>");
-        buttonToAdd.attr("class", "answer-button");
-        buttonToAdd.attr("id", "button-" + (j + 1));
-        console.log(buttonToAdd)
-        buttonToAdd.text(quizAnswers[i][j]);
-        $(".buttons").append(buttonToAdd);
-    }
-}
-
 // Displays both Question and Answers 
 function displayEverything() {
+    // Displays Question
+    function displayQuestion() {
+        var questionToAdd = $("<h4>");
+        questionToAdd.attr("class", "question");
+        questionToAdd.text(quizQuestions[i]);
+        questionToAdd.text(quizQuestions[i]);
+        $("main").prepend(questionToAdd);
+    }
+    // Displays Answers
+    function displayAnswers() {
+        for (j = 0; j < quizAnswers.length; j++) {
+            var buttonToAdd = $("<button>");
+            buttonToAdd.attr("class", "answer-button");
+            // buttonToAdd.attr("id", "button-" + (j + 1));
+            buttonToAdd.text(quizAnswers[i][j]);
+            $(".buttons").append(buttonToAdd);
+        }
+    }
+
     displayQuestion();
     displayAnswers();
     i++;
+}
+
+function clearEverything() {
+    $(".question").remove();
+    $(".buttons").empty();
 }
 
 $(".answer-button").click(function () {
@@ -67,8 +70,10 @@ var timerInterval = setInterval(function () {
 
     if (!secondsLeft || i === quizQuestions.length) {
         clearInterval(timerInterval);
+        clearEverything();
         // TODO ADD WHATEVER HAPPENS WHEN TIMER'S OVER
     }
 }, 1000);
 
-displayQuestion(i);
+
+displayEverything();
