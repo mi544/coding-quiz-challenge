@@ -1,7 +1,8 @@
 var i = 0;
 var j = 0;
 var secondsLeft = 60;
-AnswersCounter = 0;
+var answersCounter = 0;
+var highscoreArray = [];
 
 var quizQuestions = [
     "Commonly used data types DO NOT include:",
@@ -63,7 +64,7 @@ function endQuiz() {
     // Displaying End Header
     $("main").prepend($("<h4>").attr("class", "end").text("End of the Quiz!"));
     // Final Score Information
-    $("main").append($("<h5>").attr("class", "score").text(`Your final score is: ${AnswersCounter} !`));
+    $("main").append($("<h5>").attr("class", "score").text(`Your final score is: ${answersCounter} !`));
 
     // Adding input field and label
     $("main").append($("<label>").attr({
@@ -77,6 +78,7 @@ function endQuiz() {
 
     // Adding button to save
     $("main").append($("<button>").attr("class", "submit-results").text("Submit!"));
+
 }
 
 function rightOrWrong(bool) {
@@ -101,27 +103,40 @@ displayEverything();
 $(".buttons").click(function (event) {
     if (event.target.textContent === correctAnswers[i]) {
         rightOrWrong(true);
-        AnswersCounter += 10;
+        answersCounter += 10;
         i++;
         clearEverything();
         displayEverything();
     } else {
         rightOrWrong(false);
-        AnswersCounter -= 10;
+        answersCounter -= 10;
+        secondsLeft -= 5;
         i++;
         clearEverything();
         displayEverything();
     }
 });
 
-
+// Timer
 var timerInterval = setInterval(function () {
-    secondsLeft--;
-    $("#timer").text(`Time: ${secondsLeft}`)
+        secondsLeft--;
+        $("#timer").text(`Time: ${secondsLeft}`)
 
-    if (!secondsLeft || i === quizQuestions.length) {
-        clearInterval(timerInterval);
-        endQuiz();
-        // TODO ADD WHATEVER HAPPENS WHEN TIMER'S OVER
-    }
-}, 1000);
+        if (!secondsLeft || i === quizQuestions.length) {
+            clearInterval(timerInterval);
+
+            endQuiz();
+
+            $(".submit-results").click(function () {
+                // Pushing highscores to array
+                highscoreArray.push($("#initials").val() + ": " + answersCounter + "\n");
+
+                // Converting array to string using JSON.stringify()
+                localStorage.setItem("highscore", JSON.stringify(highscoreArray));
+            });
+
+        }
+    },
+    1000);
+
+// ON OPEN HIGHSCORES DESTRINGIFY
