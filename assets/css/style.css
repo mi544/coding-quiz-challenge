@@ -22,7 +22,7 @@ body {
 header {
     background-color: #bdb998;
     border-bottom: 5px solid rgb(0, 156, 156);
-    border-radius: 5px;
+    border-radius: 0 0 10px 10px;
 }
 
 header section {
@@ -42,24 +42,28 @@ main {
 .question {
     width: 70%;
     margin: 5rem 15% 1rem;
-    padding: 10px 10px 10px 10px;
+    padding: 10px;
     font-size: 1.7rem;
     font-weight: normal;
+    display: none;
 }
 
-.answer {
-    width: auto;
-    text-align: left;
-    margin: 2rem 15%;
-    font-size: 1.8rem;
+.answer-button {
+    min-width: 50%;
+    max-width: 50%;
+    display: block;
+    margin: 1rem auto 1rem 15%;
+    padding: 1.4rem;
     background-color: rgb(124, 124, 238);
     border-radius: 15px;
-}
-
-.answer h5 {
     text-align: left;
-    width: auto;
-    padding: 10px 10px 10px 10px;
     font-size: 1.6rem;
     font-weight: normal;
+}
+
+#button-1,
+#button-2,
+#button-3,
+#button-4 {
+    display: none;
 }
