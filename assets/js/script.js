@@ -119,9 +119,10 @@ $(".buttons").click(function (event) {
 });
 
 // Timer
+// Updating every 200ms for faster element updates
 var timerInterval = setInterval(function () {
-        secondsLeft--;
-        $("#timer").text(`Time: ${secondsLeft}`)
+        secondsLeft -= 0.2;
+        $("#timer").text(`Time: ${Math.floor(secondsLeft)}`)
 
         if (!secondsLeft || i === quizQuestions.length || check === "ppp") {
             clearInterval(timerInterval);
@@ -138,7 +139,7 @@ var timerInterval = setInterval(function () {
 
         }
     },
-    1000);
+    200);
 
 
 
