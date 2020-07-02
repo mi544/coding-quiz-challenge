@@ -1,20 +1,9 @@
 // $("header").attr("style", "display: none;");
-var i = -1;
+var i = 0;
 var j = 0;
 var secondsLeft = 60;
 var correctAnswersCounter = 0;
 var wrongAnswersCounter = 0;
-
-
-var timerInterval = setInterval(function () {
-    secondsLeft--;
-    $("#timer").text(`Time: ${secondsLeft}`)
-
-    if (!secondsLeft) {
-        clearInterval(timerInterval);
-        // TODO ADD WHATEVER HAPPENS WHEN TIMER'S OVER
-    }
-}, 1000);
 
 var quizQuestions = [
     "Thi111s is the question in question!",
@@ -37,35 +26,33 @@ var correctAnswers = [
     "66",
 ]
 
-// Checking if code is correct and number of questions matches number of objects of answers
-if (quizQuestions.length !== quizAnswers.length) {
-    alert("Incorrect data!");
-}
-
-
-
 // Displays Question
 function displayQuestion() {
-    $(".question").text(quizQuestions[i]);
-    $(".question").attr("style", "display: block;");
+    var questionToAdd = $("<h4>");
+    questionToAdd.attr("class", "question");
+    questionToAdd.text(quizQuestions[i]);
+    questionToAdd.text(quizQuestions[i]);
+    $("main").append(questionToAdd);
 }
 
 // Displays Answers
 function displayAnswers() {
     for (j = 0; j < quizAnswers.length; j++) {
-        $("#button-" + (j + 1)).text(quizAnswers[i][j]);
-        $("#button-" + (j + 1)).attr("style", "display: block;");
+        var buttonToAdd = $("<button>");
+        buttonToAdd.attr("class", "answer-button");
+        buttonToAdd.attr("id", "button-" + (j + 1));
+        console.log(buttonToAdd)
+        buttonToAdd.text(quizAnswers[i][j]);
+        $(".buttons").append(buttonToAdd);
     }
 }
 
 // Displays both Question and Answers 
 function displayEverything() {
+    displayQuestion();
+    displayAnswers();
     i++;
-    displayQuestion(i);
-    displayAnswers(i);
 }
-
-displayEverything();
 
 $(".answer-button").click(function () {
     var thatText = $(this).text();
@@ -74,22 +61,14 @@ $(".answer-button").click(function () {
     }
 });
 
-// $(".answer-button").click(function () {
-//     if ($(this).text === correctAnswers[i]) {
-//         correctAnswersCounter += 1;
-//         console.log("a" + correctAnswersCounter);
-//         console.log("b" + wrongAnswersCounter);
-//         console.log("c" + correctAnswers[i]);
-//         console.log("d" + i);
+var timerInterval = setInterval(function () {
+    secondsLeft--;
+    $("#timer").text(`Time: ${secondsLeft}`)
 
+    if (!secondsLeft || i === quizQuestions.length) {
+        clearInterval(timerInterval);
+        // TODO ADD WHATEVER HAPPENS WHEN TIMER'S OVER
+    }
+}, 1000);
 
-//         // TODO LESS TIMER NOW
-//     } else {
-//         wrongAnswersCounter += 1;
-//         console.log("a" + correctAnswersCounter);
-//         console.log("b" + wrongAnswersCounter);
-//         console.log("c" + correctAnswers[i]);
-//         console.log("d" + i);
-//     }
-
-// });
+displayQuestion(i);

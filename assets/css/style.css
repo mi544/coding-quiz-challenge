@@ -45,7 +45,6 @@ main {
     padding: 10px;
     font-size: 1.7rem;
     font-weight: normal;
-    display: none;
 }
 
 .answer-button {
@@ -59,11 +58,4 @@ main {
     text-align: left;
     font-size: 1.6rem;
     font-weight: normal;
-}
-
-#button-1,
-#button-2,
-#button-3,
-#button-4 {
-    display: none;
 }
