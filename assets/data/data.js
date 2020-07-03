@@ -11,7 +11,7 @@ var arr = {
             ["Strings", "Booleans", "Alerts", "Numbers"],
             ["Commas", "Curly Brackets", "Quotes", "Parentheses"],
             ["Numbers and Strings", "Other Arrays", "Booleans", "All of the Above"],
-            ["JavaScript", "Terminal/Bash", "For Loops", "Console.log"],
+            ["Terminal/Bash", "For Loops", "Console.log"],
             ["Quotes", "Curly Brackets", "Parentheses", "Square Brackets"],
         ],
         corA: [
