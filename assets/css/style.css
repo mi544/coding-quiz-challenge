@@ -61,17 +61,27 @@ main {
 .start-button {}
 
 /* Question Section */
-.question-section {}
+.question-section {
+    width: 70%;
+    min-height: 10rem;
+    max-height: 10rem;
+    background-color: #fff;
+    margin: 5rem 15% 1rem;
+}
 
-/* Question Styling */
 .question,
 .end {
-    width: 70%;
-    margin: 5rem 15% 1rem;
-    padding: 10px;
+    padding: 3rem;
     font-size: 1.7rem;
     font-weight: normal;
 }
+
+.end-section {}
+
+.submit-section {}
+
+/* Question Styling */
+
 
 .end {
     font-size: 2rem;
