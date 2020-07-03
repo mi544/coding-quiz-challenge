@@ -6,33 +6,26 @@
     display: block;
 }
 
-body {
-    font-family: 'Noto Sans', sans-serif;
-    background-color: rgb(234, 243, 240);
-}
-
 .float-left {
     float: left;
+    padding: 0;
 }
 
 .float-right {
     float: right;
+    padding: 0;
+}
+
+
+body {
+    font-family: 'Noto Sans', sans-serif;
+    background-color: rgb(234, 243, 240);
 }
 
 header {
     background-color: #bdb998;
     border-bottom: 5px solid rgb(0, 156, 156);
     border-radius: 0 0 10px 10px;
-}
-
-header section {
-    padding: 0 20px;
-}
-
-header section h2 {
-    padding: 0;
-    font-variant: small-caps;
-    color: #1b1b1b;
 }
 
 main {
@@ -84,6 +77,17 @@ label {
     padding: 0.5rem 4rem;
 }
 
+.show-highscore,
+#timer {
+    padding: 5px 15px 0;
+    font-variant: small-caps;
+    color: #1b1b1b;
+}
+
 .show-highscore:hover {
     cursor: pointer;
+}
+
+#timer {
+    min-width: 5.5rem;
 }
