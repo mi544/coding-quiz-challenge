@@ -1,62 +1,97 @@
-var i = 0;
-var j = 0;
-var secondsLeft = 60;
-var answersCounter = 0;
+// question counter
+var qC = 0;
+// answer counter
+var aC = 0;
+// total seconds for interval
+var sec = 60;
+// total score
+var score = 0;
+//
+
 var highscoreArray = [];
+//
 var check = "";
 
-var quizQuestions = [
-    "Commonly used data types DO NOT include:",
-    "String values must be enclosed within ... when being assigned to variables.",
-    "Arrays in JavaScript can be used to store ...",
-    "A very useful tool used during development and debugging for printing content to the debugger is:",
-    "The condition in an if/else statement is enclosed within ..."
-]
 
-var quizAnswers = [
-    ["Strings", "Booleans", "Alerts", "Numbers"],
-    ["Commas", "Curly Brackets", "Quotes", "Parentheses"],
-    ["Numbers and Strings", "Other Arrays", "Booleans", "All of the Above"],
-    ["JavaScript", "Terminal/Bash", "For Loops", "Console.log"],
-    ["Quotes", "Curly Brackets", "Parentheses", "Square Brackets"],
-]
 
-var correctAnswers = [
-    "Alerts",
-    "Quotes",
-    "All of the Above",
-    "Console.log",
-    "Parentheses",
-]
+// Generates elements for the welcome screen,
+// to be showed when opening or refreshing
+// the website
+function welcomeScreen() {
+    // Section for the welcome header
+    $("main").append($("<section>").attr("class", "welcome-h-section"));
+    // Welcome header
+    $(".welcome-h-section").append($("<h1>").attr("class", "welcome-h").text(arr.pageText.welcomeH));
 
-// Displays both Question and Answers 
-function displayEverything() {
+    // Section for the welcome text
+    $("main").append($("<section>").attr("class", "welcome-text-section"));
+    // Looping through all the paragraphs with welcome text
+    arr.pageText.welcomeP.forEach(function (p) {
+        $(".welcome-text-section").append($("<p>").attr("class", "welcome-text").text(p));
+    })
+
+    // Section for the start button
+    $("main").append($("<section>").attr("class", "start-button-section"));
+    // Start button
+    $(".start-button-section").append($("<button>").attr("class", "start-button").text("Start!"));
+}
+
+
+
+// Generates questions and answers 
+function generateQueAns() {
+    // Section for question
+    $("main").append($("<section>").attr("class", "question-section"))
     // Displays Question
-    function displayQuestion() {
-        var questionToAdd = $("<h4>");
-        questionToAdd.attr("class", "question");
-        questionToAdd.text(quizQuestions[i]);
-        $("main").prepend(questionToAdd);
-    }
+    $(".question-section").append($("<h2>").attr("class", "question").text(arr.quizQuestions.que[qC]));
+
+    // Generates a "section" to put our buttons in
+    $("main").append($("<section>").attr("class", "buttons-section"));
+
     // Displays Answers
-    function displayAnswers() {
-        for (j = 0; j < quizAnswers[i].length; j++) {
-            $(".buttons").append($("<button>").attr("class", "answer-button").text(quizAnswers[i][j]));
-        }
+    for (aC = 0; aC < arr.quizQuestions.ans[qC].length; aC++) {
+        $(".buttons-section").append($("<button>").attr("class", "answer-button").text(arr.quizQuestions.ans[qC][aC]));
     }
 
-    displayQuestion();
-    displayAnswers();
 }
 
-function clearEverything() {
-    $(".question").remove();
-    $(".buttons").empty();
+// Clears questions and answers sections
+function clearQueAns() {
+    // Emptying <h4> for questions
+    $(".question-section").empty();
+    // Emptying <section> for answers
+    $(".buttons-section").empty();
 }
+
+// Starts the quiz by calling other functions
+// in order to build the structure
+// and display questions and answers
+function startQuiz() {
+    // Timer interval performs every second
+    // checking if it's out of time
+    var timerI = setInterval(
+        function () {
+            sec--;
+            $("#time").text(`Time: ${sec}`);
+            if (!sec) {
+                clearInterval(timerI);
+                endQuiz();
+            }
+        }
+
+        , 1000);
+
+    // Clearing the Welcome Screen
+    $("main").empty();
+
+    // Generating first question
+    generateQueAns();
+}
+
 
 function endQuiz() {
     clearEverything();
-    $(".buttons").remove();
+    $(".buttons-section").remove();
 
     // Removing Right/Wrong Answer elements
     $("hr").remove();
@@ -98,64 +133,22 @@ function rightOrWrong(bool) {
 }
 
 
-// Displaying Everything first time
-displayEverything();
+// Displaying the Welcome Screen
+welcomeScreen();
 
-$(".buttons").click(function (event) {
-    if (event.target.textContent === correctAnswers[i]) {
-        rightOrWrong(true);
-        answersCounter += 10;
-        i++;
-        clearEverything();
-        displayEverything();
-    } else {
-        rightOrWrong(false);
-        answersCounter -= 10;
-        secondsLeft -= 5;
-        i++;
-        clearEverything();
-        displayEverything();
-    }
+$(".start-button").on("click", function () {
+    startQuiz();
 });
 
-// Timer
-// Updating every 200ms for faster element updates
-var timerInterval = setInterval(function () {
-        secondsLeft -= 0.2;
-        $("#timer").text(`Time: ${Math.floor(secondsLeft)}`)
 
-        if (!secondsLeft || i === quizQuestions.length || check === "ppp") {
-            clearInterval(timerInterval);
+// Starting the Quiz on clicking the Start button
+$("body").on("click", ".answer-button", function () {
+    if (qC === arr.quizQuestions.que) {
+        endQuiz();
+    } else {
+        $("main").empty();
+        qC++;
+        generateQueAns();
 
-            endQuiz();
-
-            $(".submit-results").click(function () {
-                // Pushing highscores to array
-                highscoreArray.push($("#initials").val() + ": " + answersCounter + "\n");
-
-                // Converting array to string using JSON.stringify()
-                localStorage.setItem("highscore", JSON.stringify(highscoreArray));
-            });
-
-        }
-    },
-    200);
-
-
-
-$(".show-highscore").click(function () {
-
-    // Assigning ppp to show timer that we need it off
-    check = "ppp";
-
-    // var highsArr = JSON.parse(localStorage.getItem("highscore"));
-    // for (var o = 0; 0 < highsArr.length; o++) {
-    //     $("main").append($("p").text(highsArr[o]));
-    // }
-
-
-    // $("main").append($("<h3>").attr("id", "confirmation").text("Right answer!"));
-
-
-})
-// ON OPEN HIGHSCORES DESTRINGIFY
+    }
+});
