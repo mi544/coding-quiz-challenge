@@ -1,5 +1,7 @@
+/* Font Import */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
 
+/* Float and Clearfix Block */
 .clearfix::after {
     clear: both;
     content: "";
@@ -8,30 +10,60 @@
 
 .float-left {
     float: left;
-    padding: 0;
 }
 
 .float-right {
     float: right;
-    padding: 0;
 }
 
-
+/* Page Elements Block */
 body {
     font-family: 'Noto Sans', sans-serif;
     background-color: rgb(234, 243, 240);
 }
 
 header {
+    padding: 1rem 0;
     background-color: #bdb998;
     border-bottom: 5px solid rgb(0, 156, 156);
     border-radius: 0 0 10px 10px;
+
+}
+
+/* View High Scores & Time 
+in the header */
+header section {
+    text-align: left;
+    min-width: 6rem;
+    padding: 5px 15px;
 }
 
 main {
     text-align: center;
 }
 
+/* Welcome Header Section */
+.welcome-h-section {}
+
+/* Welcome Header */
+.welcome-h {}
+
+/* Welcome Text Section */
+.welcome-text-section {}
+
+/* Welcome Text */
+.welcome-text {}
+
+/* Section for Start Button on the Welcome Page */
+.start-button-section {}
+
+/* Start Button on the Welcome Page */
+.start-button {}
+
+/* Question Section */
+.question-section {}
+
+/* Question Styling */
 .question,
 .end {
     width: 70%;
@@ -51,6 +83,7 @@ main {
     font-weight: normal;
 }
 
+/* Answers Styling */
 .answer-button {
     min-width: 50%;
     max-width: 50%;
@@ -64,8 +97,8 @@ main {
     font-weight: normal;
 }
 
-#initials,
-label {
+label,
+#initials {
     display: block;
     text-align: center;
     margin: 2rem auto;
@@ -78,16 +111,19 @@ label {
 }
 
 .show-highscore,
-#timer {
-    padding: 5px 15px 0;
+#time {
+
     font-variant: small-caps;
+    font-weight: bold;
+    font-size: 1.5em;
     color: #1b1b1b;
+    /* display: block; */
 }
 
 .show-highscore:hover {
     cursor: pointer;
 }
 
-#timer {
-    min-width: 5.5rem;
+#time {
+    text-align: right;
 }
