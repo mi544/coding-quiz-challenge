@@ -41,12 +41,23 @@ function welcomeScreen() {
 // Generates questions and answers 
 function generateQueAns() {
     // Section for question
-    $("main").append($("<section>").attr("class", "question-section"))
+    // with an if conditional to not generate if already exists
+    // (preserve resources)
+    if (!$(".question-section")[0]) {
+        $("main").append($("<section>").attr("class", "question-section"))
+    }
+
     // Displays Question
     $(".question-section").append($("<h2>").attr("class", "question").text(arr.quizQuestions.que[qC]));
 
+
     // Generates a "section" to put our buttons in
-    $("main").append($("<section>").attr("class", "buttons-section"));
+    // with an if conditional to not generate if already exists
+    // (preserve resources)
+    if (!$(".buttons-section")[0]) {
+
+        $("main").append($("<section>").attr("class", "buttons-section"));
+    }
 
     // Displays Answers
     for (aC = 0; aC < arr.quizQuestions.ans[qC].length; aC++) {
@@ -90,30 +101,30 @@ function startQuiz() {
 
 
 function endQuiz() {
-    clearEverything();
-    $(".buttons-section").remove();
+    // Clearing everything on the page
+    $("main").empty();
 
-    // Removing Right/Wrong Answer elements
-    $("hr").remove();
-    $("#confirmation").remove();
+    // Section for headers and score
+    $("main").append($("<section>").attr("class", "end-section"));
 
-    // Displaying End Header
-    $("main").prepend($("<h4>").attr("class", "end").text("End of the Quiz!"));
-    // Final Score Information
-    $("main").append($("<h5>").attr("class", "score").text(`Your final score is: ${answersCounter} !`));
+    // Generating an end header
+    $(".end-section").append($("<h2>").attr("class", "end").text("End of the Quiz!"));
+    // Generating final score
+    $(".end-section").append($("<h3>").attr("class", "score").text(`Your final score is: ${score} !`));
 
-    // Adding input field and label
-    $("main").append($("<label>").attr({
-        "for": "initials"
-    }).text("Enter your initials:"));
-    $("main").append($("<input>").attr({
+    // Section for the submit elements
+    $("main").append($("<section>").attr("class", "submit-section"));
+
+    // Adding an input field and a label
+    $(".submit-section").append($("<label>").attr("for", "initials").text("Enter your initials:"));
+    $(".submit-section").append($("<input>").attr({
         "type": "text",
         "id": "initials",
         "name": "initials"
     }).text("Enter your initials:"));
 
-    // Adding button to save
-    $("main").append($("<button>").attr("class", "submit-results").text("Submit!"));
+    // Adding a submit button
+    $(".submit-section").append($("<button>").attr("class", "submit-results").text("Submit!"));
 
 }
 
@@ -133,22 +144,28 @@ function rightOrWrong(bool) {
 }
 
 
-// Displaying the Welcome Screen
+// Generating the Welcome Screen
 welcomeScreen();
 
+//eventListener for the start quiz button
 $(".start-button").on("click", function () {
     startQuiz();
 });
 
 
-// Starting the Quiz on clicking the Start button
+// eventListener for answer buttons
 $("body").on("click", ".answer-button", function () {
-    if (qC === arr.quizQuestions.que) {
+    if (qC === arr.quizQuestions.que.length - 1) {
         endQuiz();
     } else {
-        $("main").empty();
+        clearQueAns();
         qC++;
         generateQueAns();
 
     }
+});
+
+// eventListener for submit buttons
+$("body").on("click", ".submit-results", function () {
+
 });
