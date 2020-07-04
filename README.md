@@ -26,3 +26,6 @@ Build a timed code quiz with multiple-choice questions.
 * When all questions are answered, the game is over
 * When timer reaches 0, the game is over
 * After the game is over, it's possible to save initials and score
+
+<img src="assets/screenshots/1.png" />
+<img src="assets/screenshots/2.png" />
