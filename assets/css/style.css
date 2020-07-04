@@ -63,14 +63,6 @@ aside {
     font-weight: normal;
 }
 
-.end-section {}
-
-.submit-section {}
-
-/* Question Styling */
-
-.icon-section {}
-
 /* Correct/Incorrect Icons */
 .correct,
 .incorrect {
@@ -122,8 +114,6 @@ label,
     font-size: 1.5rem;
     color: #1b1b1b;
 }
-
-#seconds {}
 
 .view-high-scores:hover {
     cursor: pointer;
