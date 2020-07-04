@@ -6,7 +6,9 @@ var aC = 0;
 var sec = 60;
 // total score
 var score = 0;
-//
+// defining var for timer to be accessible
+// throughout the whole script
+var timerI;
 
 var highscoreArray = [];
 //
@@ -80,7 +82,7 @@ function clearQueAns() {
 function startQuiz() {
     // Timer interval performs every second
     // checking if it's out of time
-    var timerI = setInterval(
+    timerI = setInterval(
         function () {
             sec--;
             $("#time").text(`Time: ${sec}`);
@@ -156,6 +158,9 @@ $(".start-button").on("click", function () {
 // eventListener for answer buttons
 $("body").on("click", ".answer-button", function () {
     if (qC === arr.quizQuestions.que.length - 1) {
+        // Stopping the interval
+        clearInterval(timerI);
+        // Ending the quiz
         endQuiz();
     } else {
         clearQueAns();
@@ -165,7 +170,7 @@ $("body").on("click", ".answer-button", function () {
     }
 });
 
-// eventListener for submit buttons
+// eventListener for submit button
 $("body").on("click", ".submit-results", function () {
 
 });

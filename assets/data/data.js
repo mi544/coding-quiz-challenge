@@ -20,7 +20,7 @@ var arr = {
             "All of the Above",
             "Console.log",
             "Parentheses",
-        ]
+        ],
     },
 
     pageText: {
