@@ -42,30 +42,17 @@ main {
     text-align: center;
 }
 
-/* Welcome Header Section */
-.welcome-h-section {}
-
-/* Welcome Header */
-.welcome-h {}
-
-/* Welcome Text Section */
-.welcome-text-section {}
-
-/* Welcome Text */
-.welcome-text {}
-
-/* Section for Start Button on the Welcome Page */
-.start-button-section {}
-
-/* Start Button on the Welcome Page */
-.start-button {}
+aside {
+    min-height: 20rem;
+    min-width: 10rem;
+    background-color: silver;
+}
 
 /* Question Section */
 .question-section {
     width: 70%;
-    min-height: 10rem;
-    max-height: 10rem;
-    background-color: #fff;
+    min-height: 7rem;
+    background-color: rgb(197, 211, 255);
     margin: 5rem 15% 1rem;
 }
 
@@ -82,6 +69,13 @@ main {
 
 /* Question Styling */
 
+.icon-section {}
+
+/* Correct/Incorrect Icons */
+.correct,
+.incorrect {
+    max-width: 5rem;
+}
 
 .end {
     font-size: 2rem;
@@ -120,20 +114,22 @@ label,
     padding: 0.5rem 4rem;
 }
 
-.show-highscore,
-#time {
-
+.view-high-scores,
+#time,
+#seconds {
     font-variant: small-caps;
     font-weight: bold;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     color: #1b1b1b;
-    /* display: block; */
 }
 
-.show-highscore:hover {
+#seconds {}
+
+.view-high-scores:hover {
     cursor: pointer;
 }
 
-#time {
-    text-align: right;
+
+#time-inactive {
+    color: #E00000;
 }

@@ -11,9 +11,27 @@ var score = 0;
 var timerI;
 
 var highscoreArray = [];
-//
-var check = "";
 
+// Check if a question has been answered already
+// to avoid the possibility of multiple clicks
+// on answers for one question
+// while the timeout is running
+var check = false;
+
+// Checks if High Scores element is displayed on the page
+var checkHSDisplayed = false;
+
+// High Scores
+var hScores = [];
+// If hScores exists in localStorage
+if (localStorage.getItem("hScores")) {
+    // import it
+    hScores = JSON.parse(localStorage.getItem("hScores"));
+    // display it on the page
+    hScores.forEach(function (oneScore) {
+        $(".hs-list").append($("<li>").text(oneScore));
+    })
+}
 
 
 // Generates elements for the welcome screen,
@@ -38,6 +56,13 @@ function welcomeScreen() {
     $(".start-button-section").append($("<button>").attr("class", "start-button").text("Start!"));
 }
 
+function stopTimer() {
+    clearInterval(timerI);
+    // Coloring timer red to signify the end of the quiz
+    $("#seconds").attr("id", "time-inactive");
+    // Ending the quiz
+    endQuiz();
+}
 
 
 // Generates questions and answers 
@@ -80,15 +105,20 @@ function clearQueAns() {
 // in order to build the structure
 // and display questions and answers
 function startQuiz() {
+    // Changing the text initially to be displayed right after the click
+    // (no need to wait for 1000ms for the timer to change it)
+    $("#seconds").text(sec);
     // Timer interval performs every second
-    // checking if it's out of time
     timerI = setInterval(
         function () {
             sec--;
-            $("#time").text(`Time: ${sec}`);
-            if (!sec) {
-                clearInterval(timerI);
-                endQuiz();
+            // checking if the timer is out of time
+            // seconds always 0, never negative
+            if (sec <= 0) {
+                $("#seconds").text("0");
+                stopTimer();
+            } else {
+                $("#seconds").text(sec);
             }
         }
 
@@ -130,19 +160,22 @@ function endQuiz() {
 
 }
 
-function rightOrWrong(bool) {
-    if ($("hr") && $("#confirmation")) {
-        $("hr").remove();
-        $("#confirmation").remove();
-    }
-
-    if (bool) {
-        $("main").append($("<hr />"));
-        $("main").append($("<h3>").attr("id", "confirmation").text("Right answer!"));
+function generateCorrectIncorrect(bool) {
+    if (bool === true) {
+        $("main").prepend($("<section>").attr("class", "float-left icon-section").append($("<img>").attr({
+            "src": "assets/icons/correct.svg",
+            "class": "correct"
+        })));
     } else {
-        $("main").append($("<hr />"));
-        $("main").append($("<h3>").attr("id", "confirmation").text("Wrong answer!"));
+        $("main").prepend($("<section>").attr("class", "float-right icon-section").append($("<img>").attr({
+            "src": "assets/icons/incorrect.svg",
+            "class": "incorrect"
+        })));
     }
+}
+
+function clearCorrectIncorrect() {
+    $(".icon-section").remove();
 }
 
 
@@ -150,27 +183,80 @@ function rightOrWrong(bool) {
 welcomeScreen();
 
 //eventListener for the start quiz button
-$(".start-button").on("click", function () {
-    startQuiz();
-});
-
+// Starts the quiz
+$(".start-button").on("click", startQuiz);
 
 // eventListener for answer buttons
-$("body").on("click", ".answer-button", function () {
+$("body").on("click", ".answer-button", function (event) {
+    if (check) {
+        return false;
+    }
     if (qC === arr.quizQuestions.que.length - 1) {
-        // Stopping the interval
-        clearInterval(timerI);
-        // Ending the quiz
-        endQuiz();
+        // Stopping the timer
+        stopTimer();
     } else {
-        clearQueAns();
-        qC++;
-        generateQueAns();
+        // Checking whether the answer given is right or wrong;
+        var answerCheck = event.target.innerHTML === arr.quizQuestions.corA[qC];
+        if (answerCheck) {
+            score += 10;
+        } else {
+            score -= 10;
+            // also subtracting the time
+            sec -= 10;
+            // and updating immediately
+            // always 0, never negative
+            if (sec <= 0) {
+                $("#seconds").text("0");
+            } else {
+                $("#seconds").text(sec);
+            }
+        }
+        // Generating blocks of code to show the user if he was right or wrong
+        generateCorrectIncorrect(answerCheck);
+        // checks whether an answer was answered already
+        check = true;
+        // Waiting for a brief moment so that the user can acknowledge his answer
+        setTimeout(function () {
+            // Clearing Correct/Incorrect icons
+            clearCorrectIncorrect();
+            // Generating next questions and answers elements
+            clearQueAns();
+            qC++;
+            generateQueAns();
+            check = false;
+        }, 1000);
+
+
 
     }
 });
 
 // eventListener for submit button
 $("body").on("click", ".submit-results", function () {
+    // Submitting the result
+    if ($("#initials").val()) {
+        var thisHScore = $("#initials").val();
+        // Pushing the result to the hScores array
+        hScores.push(`${thisHScore}: ${score}`);
+        // Updating the localStorage variable
+        localStorage.setItem("hScores", JSON.stringify(hScores));
+        // Clearing the input field after the result has been submitted
+        $(initials).val("");
+
+        // Adding it to the page itself
+        $(".hs-list").append($("<li>").text(`${thisHScore}: ${score}`));
+    }
+
 
 });
+
+// eventListener for the View High Scores button
+$(".view-high-scores").on("click", function () {
+    if (!checkHSDisplayed) {
+        $("aside").attr("style", "display: block");
+        checkHSDisplayed = true;
+    } else {
+        $("aside").attr("style", "display: none");
+        checkHSDisplayed = false;
+    }
+})
