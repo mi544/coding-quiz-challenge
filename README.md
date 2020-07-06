@@ -7,8 +7,6 @@
 
 # Unit 04 Web APIs: Code Quiz
 
-<!-- THIS IS IT -->
-
 ### The task
 
 Build a timed code quiz with multiple-choice questions.
