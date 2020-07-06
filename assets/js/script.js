@@ -59,7 +59,7 @@ function welcomeScreen() {
 function stopTimer() {
     clearInterval(timerI);
     // Coloring timer red to signify the end of the quiz
-    $("#seconds").attr("id", "time-inactive");
+    $("#seconds").attr("style", "color: #E00000;");
     // Ending the quiz
     endQuiz();
 }
@@ -67,6 +67,12 @@ function stopTimer() {
 
 // Generates questions and answers 
 function generateQueAns() {
+
+    // Check if out of seconds
+    if (sec <= 0) {
+        return false;
+    }
+
     // Section for question
     // with an if conditional to not generate if already exists
     // (preserve resources)
@@ -105,6 +111,7 @@ function clearQueAns() {
 // in order to build the structure
 // and display questions and answers
 function startQuiz() {
+    console.log("starting the quiz");
     // Changing the text initially to be displayed right after the click
     // (no need to wait for 1000ms for the timer to change it)
     $("#seconds").text(sec);
@@ -158,6 +165,11 @@ function endQuiz() {
     // Adding a submit button
     $(".submit-section").append($("<button>").attr("class", "submit-results").text("Submit!"));
 
+    // Section for a start-over button
+    $("main").append($("<section>").attr("class", "start-over-section"));
+
+    // Adding a start-over button
+    $(".start-over-section").append($("<button>").attr("class", "start-button").text("Start over!"));
 }
 
 function generateCorrectIncorrect(bool) {
@@ -184,7 +196,21 @@ welcomeScreen();
 
 //eventListener for the start quiz button
 // Starts the quiz
-$(".start-button").on("click", startQuiz);
+$("body").on("click", ".start-button", function () {
+    // Making sure all the values are defaulted
+    // question counter
+    qC = 0;
+    // answer counter
+    aC = 0;
+    // seconds left
+    sec = 60;
+    // removing any added styles from the seconds counter
+    $("#seconds").attr("style", "");
+
+    // Starting the quiz
+    startQuiz();
+
+});
 
 // eventListener for answer buttons
 $("body").on("click", ".answer-button", function (event) {
@@ -251,12 +277,23 @@ $("body").on("click", ".submit-results", function () {
 });
 
 // eventListener for the View High Scores button
-$(".view-high-scores").on("click", function () {
+$("body").on("click", ".view-high-scores", function () {
     if (!checkHSDisplayed) {
-        $("aside").attr("style", "display: block");
+        $("aside").attr("style", "display: block; position: absolute; left: 0px; top: 5rem;");
         checkHSDisplayed = true;
     } else {
-        $("aside").attr("style", "display: none");
+        $("aside").attr("style", "display: none; position: absolute; left: 0px; top: 5rem;");
         checkHSDisplayed = false;
     }
+})
+
+// eventListener for the Reset scores button
+$("body").on("click", ".reset-button", function () {
+    console.log('lssssa');
+    // emptying the array with scores
+    highscoreArray = []
+    // removing the value from local storage
+    localStorage.removeItem("hScores");
+    // emptying the element with data
+    $(".hs-list").empty();
 })

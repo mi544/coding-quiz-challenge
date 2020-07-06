@@ -118,8 +118,3 @@ label,
 .view-high-scores:hover {
     cursor: pointer;
 }
-
-
-#time-inactive {
-    color: #E00000;
-}
